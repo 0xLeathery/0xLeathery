@@ -81,11 +81,6 @@ On the development side, I build with **SvelteKit**, **React**, **Python**, **C#
 
 ### GitHub Stats
 
-<p>
-  <img src="https://github-readme-stats.vercel.app/api?username=ethan-hurst&show_icons=true&theme=default&hide_border=true&count_private=true" alt="GitHub Stats" height="165"/>
-  <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=ethan-hurst&layout=compact&theme=default&hide_border=true" alt="Top Languages" height="165"/>
-</p>
-
 <img src="https://github-readme-streak-stats.herokuapp.com/?user=ethan-hurst&hide_border=true&theme=default" alt="GitHub Streak"/>
 
 <img src="https://ghchart.rshah.org/ethan-hurst" alt="GitHub Contribution Graph" width="100%"/>
@@ -105,5 +100,3 @@ On the development side, I build with **SvelteKit**, **React**, **Python**, **C#
 
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=flat&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/ethanhurst/)
 [![Email](https://img.shields.io/badge/Email-ethan.hurst@outlook.com.au-0078D4?style=flat&logo=microsoftoutlook&logoColor=white)](mailto:ethan.hurst@outlook.com.au)
-
-<a href="https://gitroll.io/profile/uKV31ftMbI7gXWggXlJRCljqLKWu1" target="_blank"><img src="https://gitroll.io/api/badges/profiles/v1/uKV31ftMbI7gXWggXlJRCljqLKWu1?theme=light" alt="GitRoll Profile Badge"/></a>
