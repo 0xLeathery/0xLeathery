@@ -71,10 +71,12 @@ On the development side, I build with **SvelteKit**, **React**, **Python**, **C#
   <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript"><img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript"/></a>
   <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript"/></a>
   <a href="https://www.python.org/"><img src="https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=white" alt="Python"/></a>
+  <a href="https://www.rust-lang.org/"><img src="https://img.shields.io/badge/Rust-000000?style=for-the-badge&logo=rust&logoColor=white" alt="Rust"/></a>
   <a href="https://dotnet.microsoft.com/languages/csharp"><img src="https://img.shields.io/badge/C%23-512BD4?style=for-the-badge&logo=csharp&logoColor=white" alt="C#"/></a>
   <a href="https://reactjs.org/"><img src="https://img.shields.io/badge/React-61DAFB?style=for-the-badge&logo=react&logoColor=black" alt="React"/></a>
   <a href="https://kit.svelte.dev/"><img src="https://img.shields.io/badge/SvelteKit-FF3E00?style=for-the-badge&logo=svelte&logoColor=white" alt="SvelteKit"/></a>
   <a href="https://dotnet.microsoft.com/"><img src="https://img.shields.io/badge/.NET-512BD4?style=for-the-badge&logo=dotnet&logoColor=white" alt=".NET"/></a>
+  <a href="https://solana.com/"><img src="https://img.shields.io/badge/Solana-9945FF?style=for-the-badge&logo=solana&logoColor=white" alt="Solana"/></a>
 </p>
 
 ---
@@ -91,8 +93,11 @@ On the development side, I build with **SvelteKit**, **React**, **Python**, **C#
 
 ### What I'm Working On
 
-- 🏗️ Enterprise architecture and modernisation projects across government and education
-- 🛠️ Personal dev projects in SvelteKit and Python
+- 🏗️ Enterprise architecture and modernisation for government and education clients
+- 🛠️ Building tools and apps with TypeScript, SvelteKit, and Next.js
+- 🐍 Data pipelines and automation with Python
+- 🧩 Chrome extensions and browser tooling
+- ⛓️ Solana smart contracts with Rust and Anchor
 
 ---
 
