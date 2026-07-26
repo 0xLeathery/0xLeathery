@@ -7,6 +7,8 @@ extends Control
 @onready var job_option: OptionButton = %JobOption
 @onready var assign_button: Button = %AssignButton
 @onready var helper_status: Label = %HelperStatus
+@onready var panel: Control = $Panel
+@onready var backdrop: ColorRect = $Backdrop
 
 var _selected_research_id: String = ""
 
@@ -19,8 +21,15 @@ func _ready() -> void:
 	EventBus.research_unlocked.connect(_refresh_research)
 	EventBus.helper_assigned.connect(func(_i, _j): _refresh_helpers())
 	EventBus.building_placed.connect(func(_b): _refresh_helpers())
+	get_viewport().size_changed.connect(_layout)
 	_refresh_research("")
 	_refresh_helpers()
+
+
+func _layout() -> void:
+	if not visible:
+		return
+	ModalLayout.layout_panel(self, panel, backdrop, Vector2(980, 560))
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -29,6 +38,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		if visible:
 			_refresh_research("")
 			_refresh_helpers()
+			_layout()
 
 
 func _refresh_research(_id: String) -> void:

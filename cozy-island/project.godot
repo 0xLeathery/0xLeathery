@@ -13,6 +13,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+UiTheme="*res://scripts/autoload/ui_theme.gd"
 GameState="*res://scripts/autoload/game_state.gd"
 EventBus="*res://scripts/autoload/event_bus.gd"
 ItemDatabase="*res://scripts/autoload/item_database.gd"
@@ -25,7 +26,7 @@ MobileInput="*res://scripts/autoload/mobile_input.gd"
 window/size/viewport_width=1280
 window/size/viewport_height=720
 window/stretch/mode="canvas_items"
-window/stretch/aspect="expand"
+window/stretch/aspect="keep"
 window/handheld/orientation=4
 
 [input]

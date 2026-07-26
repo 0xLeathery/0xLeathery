@@ -3,9 +3,10 @@ extends CharacterBody2D
 const BASE_SPEED := 180.0
 const INTERACT_DISTANCE := 56.0
 
-@onready var sprite: ColorRect = $Sprite
+@onready var sprite: Node2D = $Visual
 @onready var interaction_area: Area2D = $InteractionArea
 @onready var interaction_prompt: Label = $InteractionPrompt
+@onready var camera: Camera2D = $Camera2D
 
 var _nearby_interactables: Array[Node] = []
 
@@ -14,6 +15,13 @@ func _ready() -> void:
 	interaction_area.area_entered.connect(_on_interaction_area_entered)
 	interaction_area.area_exited.connect(_on_interaction_area_exited)
 	interaction_prompt.visible = false
+	get_viewport().size_changed.connect(_update_camera_zoom)
+	_update_camera_zoom()
+
+
+func _draw_visual() -> void:
+	# Called from Visual node's script; keep player file focused on movement.
+	pass
 
 
 func _physics_process(_delta: float) -> void:
@@ -29,6 +37,17 @@ func _physics_process(_delta: float) -> void:
 	velocity = input_vector * BASE_SPEED * GameState.get_movement_speed_multiplier()
 	move_and_slide()
 	_update_interaction_prompt()
+
+
+func _update_camera_zoom() -> void:
+	var vp := get_viewport_rect().size
+	if vp.y <= 0:
+		return
+	# Zoom in on smaller screens so gameplay reads better in browser embeds.
+	var target_zoom := clampf(720.0 / vp.y, 1.0, 1.85)
+	if MobileInput.enabled:
+		target_zoom = maxf(target_zoom, 1.35)
+	camera.zoom = Vector2.ONE * target_zoom
 
 
 func _unhandled_input(event: InputEvent) -> void:

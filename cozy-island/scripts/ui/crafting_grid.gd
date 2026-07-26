@@ -8,6 +8,8 @@ extends Control
 @onready var clear_button: Button = %ClearButton
 @onready var inventory_list: ItemList = %InventoryPicker
 @onready var recipe_book_list: ItemList = %RecipeBookList
+@onready var panel: Control = $Panel
+@onready var backdrop: ColorRect = $Backdrop
 
 var _slot_values: Array = [null, null, null, null]
 var _selected_slot: int = 0
@@ -23,9 +25,16 @@ func _ready() -> void:
 		slot_buttons[i].pressed.connect(_on_slot_pressed.bind(i))
 	EventBus.inventory_changed.connect(_refresh_inventory_picker)
 	EventBus.recipe_discovered.connect(_refresh_recipe_book)
+	get_viewport().size_changed.connect(_layout)
 	_refresh_inventory_picker()
 	_refresh_recipe_book("")
 	_update_slot_buttons()
+
+
+func _layout() -> void:
+	if not visible:
+		return
+	ModalLayout.layout_panel(self, panel, backdrop, Vector2(920, 560))
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -34,6 +43,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		if visible:
 			_refresh_inventory_picker()
 			_refresh_recipe_book("")
+			_layout()
 
 
 func _refresh_inventory_picker() -> void:

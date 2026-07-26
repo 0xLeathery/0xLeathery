@@ -8,19 +8,23 @@ extends StaticBody2D
 @export var required_tool: String = ""
 @export var energy_cost: float = 4.0
 
-@onready var sprite: ColorRect = $Sprite
+@onready var visual: Node2D = $Visual
 @onready var prompt_label: Label = $PromptLabel
 @onready var timer: Timer = $RespawnTimer
 
 var _depleted: bool = false
 var _gathering: bool = false
+var _base_color: Color = Color.WHITE
 
 
 func _ready() -> void:
 	prompt_label.text = ""
 	timer.wait_time = respawn_time
 	timer.timeout.connect(_on_respawn)
-	_apply_visual()
+	_base_color = ItemDatabase.get_color(resource_id)
+	if visual:
+		visual.base_color = _base_color
+		visual.queue_redraw()
 
 
 func get_prompt() -> String:
@@ -28,8 +32,8 @@ func get_prompt() -> String:
 		return "Depleted..."
 	var item_name := ItemDatabase.get_display_name(resource_id)
 	if required_tool != "" and int(GameState.inventory.get(required_tool, 0)) <= 0:
-		return "Needs %s to gather %s" % [ItemDatabase.get_display_name(required_tool), item_name]
-	return "Gather %s [E]" % item_name
+		return "Needs %s" % ItemDatabase.get_display_name(required_tool)
+	return "Gather %s" % item_name
 
 
 func interact(_player: Node) -> void:
@@ -57,7 +61,7 @@ func interact(_player: Node) -> void:
 
 func _set_depleted(value: bool) -> void:
 	_depleted = value
-	sprite.modulate = Color(0.45, 0.45, 0.45, 0.6) if _depleted else Color.WHITE
+	visual.modulate = Color(0.55, 0.55, 0.55, 0.45) if _depleted else Color.WHITE
 	prompt_label.text = ""
 	if _depleted:
 		timer.start()
@@ -65,7 +69,3 @@ func _set_depleted(value: bool) -> void:
 
 func _on_respawn() -> void:
 	_set_depleted(false)
-
-
-func _apply_visual() -> void:
-	sprite.color = ItemDatabase.get_color(resource_id)

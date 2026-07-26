@@ -2,13 +2,22 @@ extends Control
 
 @onready var item_list: ItemList = %ItemList
 @onready var use_button: Button = %UseButton
+@onready var panel: Control = $Panel
+@onready var backdrop: ColorRect = $Backdrop
 
 
 func _ready() -> void:
 	visible = false
 	use_button.pressed.connect(_on_use_pressed)
 	EventBus.inventory_changed.connect(_refresh)
+	get_viewport().size_changed.connect(_layout)
 	_refresh()
+
+
+func _layout() -> void:
+	if not visible:
+		return
+	ModalLayout.layout_panel(self, panel, backdrop, Vector2(420, 480))
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -16,6 +25,7 @@ func _unhandled_input(event: InputEvent) -> void:
 		visible = not visible
 		if visible:
 			_refresh()
+			_layout()
 
 
 func _refresh() -> void:
