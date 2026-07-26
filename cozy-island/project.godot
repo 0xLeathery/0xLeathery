@@ -18,12 +18,15 @@ EventBus="*res://scripts/autoload/event_bus.gd"
 ItemDatabase="*res://scripts/autoload/item_database.gd"
 RecipeRegistry="*res://scripts/autoload/recipe_registry.gd"
 ResearchRegistry="*res://scripts/autoload/research_registry.gd"
+MobileInput="*res://scripts/autoload/mobile_input.gd"
 
 [display]
 
 window/size/viewport_width=1280
 window/size/viewport_height=720
 window/stretch/mode="canvas_items"
+window/stretch/aspect="expand"
+window/handheld/orientation=4
 
 [input]
 

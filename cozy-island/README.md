@@ -10,7 +10,11 @@ Built with **Godot 4.3** and GDScript.
 2. Open `cozy-island/project.godot` in the Godot editor
 3. Press **F5** to run
 
-### Controls
+### Mobile (iPhone)
+
+See **[docs/IOS.md](docs/IOS.md)** for step-by-step iPhone testing with Xcode. Touch controls (joystick + buttons) are built in.
+
+### Controls (desktop)
 
 | Key | Action |
 |-----|--------|

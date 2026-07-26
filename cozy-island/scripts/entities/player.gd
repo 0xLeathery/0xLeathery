@@ -21,6 +21,9 @@ func _physics_process(_delta: float) -> void:
 		Input.get_action_strength("move_right") - Input.get_action_strength("move_left"),
 		Input.get_action_strength("move_down") - Input.get_action_strength("move_up")
 	)
+	var touch_vector := MobileInput.get_move_vector()
+	if touch_vector.length_squared() > 0.01:
+		input_vector = touch_vector
 	if input_vector.length_squared() > 1.0:
 		input_vector = input_vector.normalized()
 	velocity = input_vector * BASE_SPEED * GameState.get_movement_speed_multiplier()
@@ -63,7 +66,7 @@ func _update_interaction_prompt() -> void:
 	if target.has_method("get_prompt"):
 		interaction_prompt.text = target.get_prompt()
 	else:
-		interaction_prompt.text = "Press E to interact"
+		interaction_prompt.text = "Tap Interact" if MobileInput.enabled else "Press E to interact"
 
 
 func _on_interaction_area_entered(area: Area2D) -> void:
