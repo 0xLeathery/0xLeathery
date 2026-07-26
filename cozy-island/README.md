@@ -16,7 +16,7 @@ See **[docs/IOS.md](docs/IOS.md)** for step-by-step iPhone testing with Xcode. T
 
 ### Play in browser (itch.io)
 
-See **[docs/ITCH.md](docs/ITCH.md)** — Butler auto-publish to **https://0xleathery.itch.io/cozy-island**
+See **[docs/ITCH.md](docs/ITCH.md)** — Butler auto-publish to **https://leathery.itch.io/cozy-island**
 
 1. Add `ITCH_API_KEY` ([itch API keys](https://itch.io/user/settings/api-keys)) to [GitHub Secrets](https://github.com/0xLeathery/0xLeathery/settings/secrets/actions)
 2. Create draft HTML project on itch.io (slug: `cozy-island`)

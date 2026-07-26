@@ -6,7 +6,7 @@ set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT"
 
-PROJECT="${ITCH_PROJECT:-0xleathery/cozy-island}"
+PROJECT="${ITCH_PROJECT:-leathery/cozy-island}"
 CHANNEL="${ITCH_CHANNEL:-web}"
 ZIP_PATH="build/cozy-island-web.zip"
 SKIP_BUILD=false
@@ -16,7 +16,7 @@ for arg in "$@"; do
 		--skip-build) SKIP_BUILD=true ;;
 		-h|--help)
 			echo "Usage: $0 [--skip-build]"
-			echo "  ITCH_PROJECT  default: 0xleathery/cozy-island"
+			echo "  ITCH_PROJECT  default: leathery/cozy-island"
 			echo "  ITCH_CHANNEL  default: web"
 			echo "  BUTLER_API_KEY  required in CI; use 'butler login' locally"
 			exit 0

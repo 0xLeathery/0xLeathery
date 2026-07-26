@@ -10,6 +10,6 @@
 #   Add ITCH_API_KEY secret → push to main or run workflow manually
 
 [project]
-slug = "0xleathery/cozy-island"
+slug = "leathery/cozy-island"
 channel = "web"
 zip = "build/cozy-island-web.zip"

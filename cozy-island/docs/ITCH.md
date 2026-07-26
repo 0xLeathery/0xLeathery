@@ -2,7 +2,7 @@
 
 Play in the browser on desktop or phone — no install required.
 
-**Live URL (after first publish):** https://0xleathery.itch.io/cozy-island
+**Live URL:** https://leathery.itch.io/cozy-island
 
 ---
 
@@ -71,8 +71,8 @@ Re-publish without rebuilding:
 ```bash
 godot --headless --path cozy-island --export-release "Web" cozy-island/build/web/index.html
 cd cozy-island/build/web && zip -r ../cozy-island-web.zip .
-butler push ../cozy-island-web.zip 0xleathery/cozy-island:web
-butler status 0xleathery/cozy-island:web
+butler push ../cozy-island-web.zip leathery/cozy-island:web
+butler status leathery/cozy-island:web
 ```
 
 ---

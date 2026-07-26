@@ -14,7 +14,7 @@ on:
       - '.github/workflows/itch-export.yml'
 
 env:
-  ITCH_PROJECT: 0xleathery/cozy-island
+  ITCH_PROJECT: leathery/cozy-island
   ITCH_CHANNEL: web
   GODOT_VERSION: 4.3-stable
 
@@ -90,4 +90,4 @@ jobs:
       - name: Summary
         run: |
           echo "### Published to itch.io" >> "$GITHUB_STEP_SUMMARY"
-          echo "Play at: **https://0xleathery.itch.io/cozy-island**" >> "$GITHUB_STEP_SUMMARY"
+          echo "Play at: **https://leathery.itch.io/cozy-island**" >> "$GITHUB_STEP_SUMMARY"
