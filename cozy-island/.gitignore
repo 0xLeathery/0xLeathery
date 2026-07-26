@@ -1,0 +1,21 @@
+# Godot 4+
+
+.godot/
+*.translation
+import/
+
+# OS / editor
+.DS_Store
+*.swp
+*.swo
+*~
+
+# Build outputs (keep export presets in repo)
+build/
+tools/butler/
+export/
+*.exe
+*.x86_64
+
+# Logs
+*.log

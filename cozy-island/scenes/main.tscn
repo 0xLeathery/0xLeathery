@@ -1,0 +1,30 @@
+[gd_scene load_steps=9 format=3 uid="uid://main001"]
+
+[ext_resource type="Script" path="res://scripts/main.gd" id="1"]
+[ext_resource type="PackedScene" path="res://scenes/world/island_map.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://scenes/ui/hud.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://scenes/ui/crafting_grid.tscn" id="4"]
+[ext_resource type="PackedScene" path="res://scenes/ui/inventory_panel.tscn" id="5"]
+[ext_resource type="PackedScene" path="res://scenes/ui/research_panel.tscn" id="6"]
+[ext_resource type="PackedScene" path="res://scenes/ui/dialogue_box.tscn" id="7"]
+[ext_resource type="PackedScene" path="res://scenes/world/ambient_audio.tscn" id="8"]
+[ext_resource type="PackedScene" path="res://scenes/ui/mobile_controls.tscn" id="9"]
+
+[node name="Main" type="Node"]
+script = ExtResource("1")
+
+[node name="IslandMap" parent="." instance=ExtResource("2")]
+
+[node name="HUD" parent="." instance=ExtResource("3")]
+
+[node name="CraftingGrid" parent="." instance=ExtResource("4")]
+
+[node name="InventoryPanel" parent="." instance=ExtResource("5")]
+
+[node name="ResearchPanel" parent="." instance=ExtResource("6")]
+
+[node name="DialogueBox" parent="." instance=ExtResource("7")]
+
+[node name="AmbientAudio" parent="." instance=ExtResource("8")]
+
+[node name="MobileControls" parent="." instance=ExtResource("9")]

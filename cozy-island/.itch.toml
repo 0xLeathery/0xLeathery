@@ -1,0 +1,15 @@
+# Butler configuration for Cozy Island
+# https://itch.io/docs/butler/
+#
+# Local publish:
+#   ./scripts/install-butler.sh
+#   butler login
+#   ./scripts/publish-itch.sh
+#
+# CI publish (GitHub Actions):
+#   Add ITCH_API_KEY secret → push to main or run workflow manually
+
+[project]
+slug = "leathery/cozy-island"
+channel = "web"
+zip = "build/cozy-island-web.zip"

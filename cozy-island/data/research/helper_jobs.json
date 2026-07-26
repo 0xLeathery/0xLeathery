@@ -1,0 +1,10 @@
+{
+  "gather_wood": {"id": "gather_wood", "name": "Gather Wood", "duration": 10.0, "inputs": {}, "output": "log", "output_amount": 1},
+  "gather_stone": {"id": "gather_stone", "name": "Gather Stone", "duration": 12.0, "inputs": {}, "output": "stone", "output_amount": 1},
+  "fish": {"id": "fish", "name": "Fish", "duration": 14.0, "inputs": {}, "output": "fish", "output_amount": 1},
+  "tend_fire": {"id": "tend_fire", "name": "Tend Fire", "duration": 8.0, "inputs": {"stick": 1}, "output": "charcoal", "output_amount": 1},
+  "process_ore": {"id": "process_ore", "name": "Process Ore", "duration": 16.0, "inputs": {"iron_ore": 1, "charcoal": 1}, "output": "flint", "output_amount": 1},
+  "forage_berries": {"id": "forage_berries", "name": "Forage Berries", "duration": 9.0, "inputs": {}, "output": "berry", "output_amount": 2},
+  "collect_water": {"id": "collect_water", "name": "Collect Water", "duration": 7.0, "inputs": {}, "output": "fresh_water", "output_amount": 1},
+  "weave_vines": {"id": "weave_vines", "name": "Weave Vines", "duration": 11.0, "inputs": {"vine": 2}, "output": "rope", "output_amount": 1}
+}
