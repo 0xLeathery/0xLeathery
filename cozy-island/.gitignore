@@ -2,7 +2,6 @@
 
 .godot/
 *.translation
-export_presets.cfg
 import/
 
 # OS / editor
@@ -11,13 +10,11 @@ import/
 *.swo
 *~
 
-# Build outputs
+# Build outputs (keep export presets in repo)
 build/
 export/
 *.exe
 *.x86_64
-*.pck
-*.zip
 
 # Logs
 *.log

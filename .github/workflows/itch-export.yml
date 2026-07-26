@@ -1,0 +1,41 @@
+name: Export Web Build for itch.io
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, cursor/cozy-island-scaffold-73da]
+    paths:
+      - 'cozy-island/**'
+
+jobs:
+  export-web:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download Godot
+        run: |
+          GODOT_VERSION=4.3-stable
+          curl -sL "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}/Godot_v${GODOT_VERSION}_linux.x86_64.zip" -o godot.zip
+          curl -sL "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}/Godot_v${GODOT_VERSION}_export_templates.tpz" -o templates.tpz
+          unzip -q godot.zip
+          mkdir -p ~/.local/share/godot/export_templates/4.3.stable
+          unzip -q templates.tpz -d templates
+          cp -r templates/templates/* ~/.local/share/godot/export_templates/4.3.stable/
+
+      - name: Export HTML5 build
+        run: |
+          mkdir -p cozy-island/build/web
+          ./Godot_v4.3-stable_linux.x86_64 --headless --path cozy-island --export-release "Web" cozy-island/build/web/index.html
+
+      - name: Package zip for itch.io upload
+        run: |
+          cd cozy-island/build/web
+          zip -r ../cozy-island-web.zip .
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: cozy-island-web-itch
+          path: cozy-island/build/cozy-island-web.zip
+          retention-days: 30

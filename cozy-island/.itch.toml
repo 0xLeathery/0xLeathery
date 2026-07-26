@@ -1,0 +1,11 @@
+# itch.io page metadata for Butler CLI
+# https://itch.io/docs/butler/
+
+[itch_config]
+project = "your-username/cozy-island"
+
+[uploads]
+# HTML5 build — zip must contain index.html at root
+[uploads.web]
+path = "build/cozy-island-web.zip"
+channel = "web"

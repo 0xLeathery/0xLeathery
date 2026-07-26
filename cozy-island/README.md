@@ -14,6 +14,16 @@ Built with **Godot 4.3** and GDScript.
 
 See **[docs/IOS.md](docs/IOS.md)** for step-by-step iPhone testing with Xcode. Touch controls (joystick + buttons) are built in.
 
+### Play in browser (itch.io)
+
+See **[docs/ITCH.md](docs/ITCH.md)** to publish the HTML5 build on [itch.io](https://itch.io) — works on desktop and phone, no install needed.
+
+```bash
+godot --headless --path cozy-island --export-release "Web" cozy-island/build/web/index.html
+cd cozy-island/build/web && zip -r ../cozy-island-web.zip .
+# Upload cozy-island-web.zip to itch.io as an HTML game
+```
+
 ### Controls (desktop)
 
 | Key | Action |
