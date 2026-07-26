@@ -1,0 +1,10 @@
+[
+  {"id": "workshop", "name": "Workshop", "description": "Unlock camp workshop and first helper.", "cost": {"log": 10, "stone": 5}, "requires": [], "unlocks": ["building_workshop", "helper_slot_1"]},
+  {"id": "helper_two", "name": "Second Helper", "description": "Recruit another camp helper.", "cost": {"woven_mat": 3, "rope": 2}, "requires": ["workshop"], "unlocks": ["helper_slot_2"]},
+  {"id": "kiln", "name": "Kiln", "description": "Fire clay and ore more efficiently.", "cost": {"stone": 8, "charcoal": 4}, "requires": ["workshop"], "unlocks": ["kiln_recipes"]},
+  {"id": "preserving_jar", "name": "Preserving Jar", "description": "Store food for longer journeys.", "cost": {"clay": 6, "fresh_water": 3}, "requires": ["kiln"], "unlocks": ["preserving_recipes"]},
+  {"id": "advanced_trap", "name": "Advanced Trap", "description": "Craft stronger traps for the forest.", "cost": {"trap": 2, "rope": 3, "iron_ore": 2}, "requires": ["workshop"], "unlocks": ["advanced_trap"]},
+  {"id": "raft_blueprint", "name": "Raft Blueprint", "description": "Discover how to build an escape raft.", "cost": {"log": 15, "rope": 5, "woven_mat": 4}, "requires": ["workshop", "preserving_jar"], "unlocks": ["raft_blueprint"]},
+  {"id": "camp_expansion", "name": "Camp Expansion", "description": "Expand sleeping and storage capacity.", "cost": {"log": 12, "woven_mat": 5}, "requires": ["workshop"], "unlocks": ["helper_slot_3"]},
+  {"id": "automation_boost", "name": "Automation Boost", "description": "Helpers work 25% faster.", "cost": {"charcoal": 8, "iron_ore": 4}, "requires": ["kiln"], "unlocks": ["automation_boost"]}
+]

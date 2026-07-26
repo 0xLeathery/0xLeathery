@@ -1,0 +1,23 @@
+# Godot 4+
+
+.godot/
+*.translation
+export_presets.cfg
+import/
+
+# OS / editor
+.DS_Store
+*.swp
+*.swo
+*~
+
+# Build outputs
+build/
+export/
+*.exe
+*.x86_64
+*.pck
+*.zip
+
+# Logs
+*.log
