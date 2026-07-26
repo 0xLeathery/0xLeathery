@@ -50,8 +50,8 @@ func _refresh_inventory_picker() -> void:
 	inventory_list.clear()
 	for entry in ItemDatabase.get_inventory_entries():
 		var line := "%s x%d" % [entry["name"], entry["amount"]]
-		inventory_list.add_item(line)
-		inventory_list.set_item_metadata(inventory_list.item_count - 1, entry["id"])
+		var idx := inventory_list.add_item(line, entry.get("icon"))
+		inventory_list.set_item_metadata(idx, entry["id"])
 
 
 func _refresh_recipe_book(_recipe_id: String) -> void:
@@ -66,9 +66,10 @@ func _refresh_recipe_book(_recipe_id: String) -> void:
 				parts.append(ItemDatabase.get_display_name(str(slot)))
 		var tool := str(recipe.get("tool", ""))
 		var tool_text := ItemDatabase.get_display_name(tool) if tool != "" else "No tool"
-		var line := "%s -> %s (%s)" % [" + ".join(parts), ItemDatabase.get_display_name(str(recipe.get("output", ""))), tool_text]
-		recipe_book_list.add_item(line)
-		recipe_book_list.set_item_metadata(recipe_book_list.item_count - 1, recipe)
+		var output_id := str(recipe.get("output", ""))
+		var line := "%s → %s (%s)" % [" + ".join(parts), ItemDatabase.get_display_name(output_id), tool_text]
+		var idx := recipe_book_list.add_item(line, ItemDatabase.get_icon(output_id))
+		recipe_book_list.set_item_metadata(idx, recipe)
 
 
 func _on_inventory_selected(index: int) -> void:

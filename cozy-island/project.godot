@@ -20,6 +20,7 @@ ItemDatabase="*res://scripts/autoload/item_database.gd"
 RecipeRegistry="*res://scripts/autoload/recipe_registry.gd"
 ResearchRegistry="*res://scripts/autoload/research_registry.gd"
 MobileInput="*res://scripts/autoload/mobile_input.gd"
+Sfx="*res://scenes/autoload/sfx.tscn"
 
 [display]
 

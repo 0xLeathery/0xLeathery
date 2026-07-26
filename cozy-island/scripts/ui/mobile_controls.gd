@@ -1,11 +1,8 @@
 extends CanvasLayer
 
-const JOYSTICK_RADIUS := 68.0
-const KNOB_RADIUS := 26.0
-
 @onready var joystick_zone: Control = $JoystickZone
-@onready var joystick_base: Panel = $JoystickZone/JoystickBase
-@onready var joystick_knob: Panel = $JoystickZone/JoystickKnob
+@onready var joystick_base: TextureRect = $JoystickZone/JoystickBase
+@onready var joystick_knob: TextureRect = $JoystickZone/JoystickKnob
 @onready var action_buttons: HBoxContainer = $ActionButtons
 
 var _active_touch_id: int = -1
@@ -16,6 +13,10 @@ func _ready() -> void:
 	visible = MobileInput.enabled
 	if not visible:
 		return
+	if ResourceLoader.exists("res://assets/sprites/ui/joystick_base.png"):
+		joystick_base.texture = load("res://assets/sprites/ui/joystick_base.png")
+	if ResourceLoader.exists("res://assets/sprites/ui/joystick_knob.png"):
+		joystick_knob.texture = load("res://assets/sprites/ui/joystick_knob.png")
 	joystick_zone.gui_input.connect(_on_joystick_gui_input)
 	_style_controls()
 	get_viewport().size_changed.connect(_layout_controls)
@@ -31,19 +32,10 @@ func _style_controls() -> void:
 			child.text = labels[i] if i < labels.size() else child.text
 			child.custom_minimum_size = Vector2(78, 78)
 			i += 1
-	var panel_style := StyleBoxFlat.new()
-	panel_style.bg_color = Color(0.12, 0.1, 0.08, 0.5)
-	panel_style.set_corner_radius_all(999)
-	panel_style.set_border_width_all(2)
-	panel_style.border_color = Color(0.95, 0.82, 0.55, 0.45)
-	joystick_base.add_theme_stylebox_override("panel", panel_style)
-	var knob_style := panel_style.duplicate()
-	knob_style.bg_color = Color(0.95, 0.82, 0.55, 0.85)
-	joystick_knob.add_theme_stylebox_override("panel", knob_style)
 
 
 func _layout_controls() -> void:
-	var vp := get_viewport_rect().size
+	var vp := get_viewport().get_visible_rect().size
 	var pad := 14.0
 	var zone_size := minf(180.0, vp.y * 0.34)
 	joystick_zone.position = Vector2(pad, vp.y - zone_size - pad)
@@ -93,20 +85,25 @@ func _reset_knob() -> void:
 
 
 func _on_interact_pressed() -> void:
+	Sfx.play_ui_click()
 	MobileInput.press_action("interact")
 
 
 func _on_craft_pressed() -> void:
+	Sfx.play_ui_open()
 	MobileInput.press_action("toggle_crafting")
 
 
 func _on_inventory_pressed() -> void:
+	Sfx.play_ui_open()
 	MobileInput.press_action("toggle_inventory")
 
 
 func _on_research_pressed() -> void:
+	Sfx.play_ui_open()
 	MobileInput.press_action("toggle_research")
 
 
 func _on_sleep_pressed() -> void:
+	Sfx.play_ui_click()
 	MobileInput.press_action("sleep")

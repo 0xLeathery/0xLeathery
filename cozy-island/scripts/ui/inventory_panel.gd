@@ -32,8 +32,8 @@ func _refresh() -> void:
 	item_list.clear()
 	for entry in ItemDatabase.get_inventory_entries():
 		var line := "%s x%d" % [entry["name"], entry["amount"]]
-		item_list.add_item(line)
-		item_list.set_item_metadata(item_list.item_count - 1, entry["id"])
+		var idx := item_list.add_item(line, entry.get("icon"))
+		item_list.set_item_metadata(idx, entry["id"])
 
 
 func _on_use_pressed() -> void:

@@ -37,13 +37,16 @@ Local publish: `./scripts/install-butler.sh && butler login && ./scripts/publish
 
 ## Features
 
+- **Pixel art world** — 32×32 tropical tiles, animated water, trees, camp props
+- **Animated player & Mira** — walk cycles, item icons, cozy UI theme
 - **Soft survival** — hunger, thirst, and energy with Relaxed Mode toggle
 - **Island zones** — beach, forest, river, camp cave
 - **40 recipes** — experiment to discover hidden combinations
 - **Skills** — woodworking, cooking, stonework, weaving
-- **Camp building** — fire pit, bed, storage, workshop
+- **Camp building** — fire pit, bed, storage, workshop (+ fire particles)
 - **Automation** — assign helpers to gather, fish, tend fire, and more
 - **Research tree** — 8 unlock nodes including raft blueprint
+- **Atmosphere** — day/night tint, waves ambience, UI SFX
 
 ## Project Structure
 
