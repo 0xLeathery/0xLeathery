@@ -1,11 +1,17 @@
 extends Area2D
 
 @export var building_id: String = "fire_pit"
-@export var building_color: Color = Color("#E67E22")
+@export var sprite_name: String = "fire_pit"
+
+@onready var sprite: Sprite2D = $Sprite
 
 
 func _ready() -> void:
-	$Sprite.color = building_color
+	var path := "res://assets/sprites/props/%s.png" % sprite_name
+	if ResourceLoader.exists(path):
+		sprite.texture = load(path)
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	sprite.centered = true
 	_update_visibility()
 	EventBus.building_placed.connect(_on_building_placed)
 
@@ -20,4 +26,4 @@ func _update_visibility() -> void:
 
 
 func get_prompt() -> String:
-	return "%s [built]" % building_id.replace("_", " ").capitalize()
+	return building_id.replace("_", " ").capitalize()

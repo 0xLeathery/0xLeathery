@@ -49,6 +49,13 @@ func get_color(item_id: String) -> Color:
 	return Color.html(hex)
 
 
+func get_icon(item_id: String) -> Texture2D:
+	var path := "res://assets/sprites/items/%s.png" % item_id
+	if ResourceLoader.exists(path):
+		return load(path) as Texture2D
+	return null
+
+
 func get_inventory_entries() -> Array[Dictionary]:
 	var entries: Array[Dictionary] = []
 	for item_id in GameState.inventory.keys():
@@ -58,6 +65,7 @@ func get_inventory_entries() -> Array[Dictionary]:
 			"name": get_display_name(item_id),
 			"color": get_color(item_id),
 			"is_tool": is_tool(item_id),
+			"icon": get_icon(item_id),
 		})
 	entries.sort_custom(func(a: Dictionary, b: Dictionary) -> bool:
 		return str(a["name"]) < str(b["name"])

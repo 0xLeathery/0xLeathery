@@ -18,19 +18,23 @@ offset_bottom = -16.0
 grow_vertical = 0
 mouse_filter = 0
 
-[node name="JoystickBase" type="Panel" parent="JoystickZone"]
+[node name="JoystickBase" type="TextureRect" parent="JoystickZone"]
 layout_mode = 0
 offset_left = 8.0
 offset_top = 8.0
 offset_right = 160.0
 offset_bottom = 160.0
+expand_mode = 1
+stretch_mode = 5
 
-[node name="JoystickKnob" type="Panel" parent="JoystickZone"]
+[node name="JoystickKnob" type="TextureRect" parent="JoystickZone"]
 layout_mode = 0
 offset_left = 56.0
 offset_top = 56.0
 offset_right = 112.0
 offset_bottom = 112.0
+expand_mode = 1
+stretch_mode = 5
 
 [node name="ActionButtons" type="HBoxContainer" parent="."]
 anchors_preset = 3
@@ -49,27 +53,27 @@ alignment = 2
 [node name="InteractButton" type="Button" parent="ActionButtons"]
 custom_minimum_size = Vector2(72, 72)
 layout_mode = 2
-text = "E"
+text = "Gather"
 
 [node name="CraftButton" type="Button" parent="ActionButtons"]
 custom_minimum_size = Vector2(72, 72)
 layout_mode = 2
-text = "C"
+text = "Craft"
 
 [node name="InventoryButton" type="Button" parent="ActionButtons"]
 custom_minimum_size = Vector2(72, 72)
 layout_mode = 2
-text = "I"
+text = "Items"
 
 [node name="ResearchButton" type="Button" parent="ActionButtons"]
 custom_minimum_size = Vector2(72, 72)
 layout_mode = 2
-text = "R"
+text = "Research"
 
 [node name="SleepButton" type="Button" parent="ActionButtons"]
 custom_minimum_size = Vector2(72, 72)
 layout_mode = 2
-text = "F"
+text = "Sleep"
 
 [connection signal="pressed" from="ActionButtons/InteractButton" to="." method="_on_interact_pressed"]
 [connection signal="pressed" from="ActionButtons/CraftButton" to="." method="_on_craft_pressed"]

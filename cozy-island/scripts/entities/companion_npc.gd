@@ -7,27 +7,32 @@ extends StaticBody2D
 	"Build a workshop when you can — helpers will keep the camp running while you explore.",
 ]
 
-var _dialogue_index: int = 0
+@onready var sprite: Sprite2D = $Sprite
 
 
 func _ready() -> void:
+	if ResourceLoader.exists("res://assets/sprites/characters/mira.png"):
+		sprite.texture = load("res://assets/sprites/characters/mira.png")
+	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	sprite.centered = true
 	$Label.text = speaker_name
 
 
 func get_prompt() -> String:
-	return "Talk to %s [E]" % speaker_name
+	return "Talk to %s" % speaker_name
 
 
 func interact(_player: Node) -> void:
 	var lines := _get_contextual_dialogue()
 	EventBus.dialogue_requested.emit(speaker_name, lines)
+	Sfx.play_ui_open()
 
 
 func _get_contextual_dialogue() -> PackedStringArray:
 	if GameState.story_stage == 0:
 		return PackedStringArray([
 			"You washed ashore at dawn. I'm Mira — I tend this cave while you explore.",
-			"Gather sticks and berries on the beach. Press C to open crafting.",
+			"Gather sticks and berries on the beach. Open Crafting when you're ready.",
 		])
 	if not GameState.camp_buildings.get("fire_pit", false):
 		return PackedStringArray([

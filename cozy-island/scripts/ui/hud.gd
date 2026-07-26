@@ -43,7 +43,7 @@ func _apply_bar_color(bar: ProgressBar, color: Color) -> void:
 
 
 func _layout() -> void:
-	var vp := get_viewport_rect().size
+	var vp := get_viewport().get_visible_rect().size
 	var compact := vp.x < 900.0 or MobileInput.enabled
 	if has_node("Root/TopBar"):
 		var top: Control = $Root/TopBar
