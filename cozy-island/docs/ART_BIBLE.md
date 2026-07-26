@@ -18,13 +18,20 @@
 | accent | #E9A66C | UI borders / fire |
 
 ## Layers
-1. Terrain TileMap (sand/grass/forest/cave/water)
-2. Shore / path accents
-3. Props (trees, rocks, bushes)
-4. Gatherables / buildings / NPCs
-5. Player
-6. VFX (fire particles, water shimmer)
-7. UI CanvasLayer
+1. Atmosphere (WorldEnvironment glow, sparkles, leaf dust)
+2. Terrain TileMap (sand/grass/forest/cave/water)
+3. Shore / path accents
+4. Props (trees, rocks, bushes) + soft shadows
+5. Gatherables / buildings / NPCs
+6. Player (walk + gather sheets)
+7. Campfire PointLight2D + fire particles
+8. Day/night CanvasModulate grades
+9. UI CanvasLayer (textured panels / joystick)
+
+## Animation
+- Player sheet: 128×160 — 4 walk rows × 4 frames + gather row
+- Fire pit sheet: 128×32 — 4 burn frames
+- Water tiles: atlas frames 6–9 cycle every ~220ms
 
 ## Credits
 - Custom tropical sprites generated for Cozy Island

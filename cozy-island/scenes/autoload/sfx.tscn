@@ -10,3 +10,5 @@ script = ExtResource("1")
 [node name="UiClick" type="AudioStreamPlayer" parent="."]
 
 [node name="UiOpen" type="AudioStreamPlayer" parent="."]
+
+[node name="Footstep" type="AudioStreamPlayer" parent="."]
