@@ -160,18 +160,20 @@ func _setup_fire_particles() -> void:
 	var particles := GPUParticles2D.new()
 	particles.name = "FireParticles"
 	particles.position = Vector2(8, 7) * TILE + Vector2(TILE / 2, TILE / 2 - 8)
-	particles.amount = 18
-	particles.lifetime = 0.7
+	particles.amount = 22
+	particles.lifetime = 0.75
 	particles.explosiveness = 0.05
+	if ResourceLoader.exists("res://assets/sprites/fx/spark.png"):
+		particles.texture = load("res://assets/sprites/fx/spark.png")
 	var mat := ParticleProcessMaterial.new()
 	mat.direction = Vector3(0, -1, 0)
 	mat.spread = 18.0
 	mat.initial_velocity_min = 12.0
 	mat.initial_velocity_max = 28.0
 	mat.gravity = Vector3(0, -8, 0)
-	mat.scale_min = 0.4
-	mat.scale_max = 1.0
-	mat.color = Color(1.0, 0.55, 0.15, 0.9)
+	mat.scale_min = 0.45
+	mat.scale_max = 1.15
+	mat.color = Color(1.0, 0.55, 0.15, 0.95)
 	particles.process_material = mat
 	particles.emitting = false
 	camp_root.add_child(particles)

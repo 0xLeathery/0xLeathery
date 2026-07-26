@@ -16,6 +16,23 @@ func _ready() -> void:
 	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	sprite.centered = true
 	$Label.text = speaker_name
+	_ensure_shadow()
+
+
+func _ensure_shadow() -> void:
+	if not ResourceLoader.exists("res://assets/sprites/characters/shadow.png"):
+		return
+	if has_node("Shadow"):
+		return
+	var shadow := Sprite2D.new()
+	shadow.name = "Shadow"
+	shadow.texture = load("res://assets/sprites/characters/shadow.png")
+	shadow.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	shadow.z_index = -1
+	shadow.position = Vector2(0, 12)
+	shadow.modulate = Color(1, 1, 1, 0.4)
+	add_child(shadow)
+	move_child(shadow, 0)
 
 
 func get_prompt() -> String:

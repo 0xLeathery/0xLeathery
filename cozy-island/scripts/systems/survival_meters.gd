@@ -16,16 +16,35 @@ static func is_night(hour: float) -> bool:
 
 
 static func get_light_color(hour: float) -> Color:
-	if is_night(hour):
-		return Color(0.15, 0.18, 0.35, 1.0)
-	if hour < 8.0 or hour >= 17.0:
-		return Color(1.0, 0.85, 0.65, 1.0)
-	return Color(1.0, 1.0, 0.95, 1.0)
+	return get_ambient_modulate(hour)
 
 
 static func get_ambient_modulate(hour: float) -> Color:
-	if is_night(hour):
-		return Color(0.55, 0.6, 0.85, 1.0)
-	if hour < 8.0 or hour >= 17.0:
-		return Color(1.0, 0.92, 0.78, 1.0)
-	return Color(1.0, 1.0, 1.0, 1.0)
+	## Smooth day/night grade keyed to in-game hour.
+	var h := fposmod(hour, 24.0)
+	var night := Color(0.48, 0.52, 0.78, 1.0)
+	var dawn := Color(1.0, 0.78, 0.62, 1.0)
+	var day := Color(1.0, 1.0, 0.98, 1.0)
+	var golden := Color(1.0, 0.88, 0.68, 1.0)
+	var dusk := Color(0.82, 0.62, 0.78, 1.0)
+
+	if h < 5.0:
+		return night
+	if h < 6.5:
+		return night.lerp(dawn, _smooth((h - 5.0) / 1.5))
+	if h < 8.0:
+		return dawn.lerp(day, _smooth((h - 6.5) / 1.5))
+	if h < 16.5:
+		return day
+	if h < 18.0:
+		return day.lerp(golden, _smooth((h - 16.5) / 1.5))
+	if h < 19.5:
+		return golden.lerp(dusk, _smooth((h - 18.0) / 1.5))
+	if h < 21.0:
+		return dusk.lerp(night, _smooth((h - 19.5) / 1.5))
+	return night
+
+
+static func _smooth(t: float) -> float:
+	t = clampf(t, 0.0, 1.0)
+	return t * t * (3.0 - 2.0 * t)

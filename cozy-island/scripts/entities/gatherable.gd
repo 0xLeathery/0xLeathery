@@ -26,6 +26,23 @@ func _ready() -> void:
 		sprite.texture = load(path)
 	sprite.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	sprite.centered = true
+	_ensure_shadow()
+
+
+func _ensure_shadow() -> void:
+	if not ResourceLoader.exists("res://assets/sprites/characters/shadow.png"):
+		return
+	if has_node("Shadow"):
+		return
+	var shadow := Sprite2D.new()
+	shadow.name = "Shadow"
+	shadow.texture = load("res://assets/sprites/characters/shadow.png")
+	shadow.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
+	shadow.z_index = -1
+	shadow.position = Vector2(0, 11)
+	shadow.modulate = Color(1, 1, 1, 0.4)
+	add_child(shadow)
+	move_child(shadow, 0)
 
 
 func get_prompt() -> String:
@@ -48,6 +65,8 @@ func interact(_player: Node) -> void:
 		return
 	_gathering = true
 	prompt_label.text = "Gathering..."
+	if _player_ref_has_gather(_player):
+		_player.play_gather_animation(gather_time)
 	await get_tree().create_timer(gather_time).timeout
 	if not is_instance_valid(self):
 		return
@@ -59,6 +78,10 @@ func interact(_player: Node) -> void:
 	Sfx.play_gather()
 	_set_depleted(true)
 	_gathering = false
+
+
+func _player_ref_has_gather(p: Node) -> bool:
+	return p != null and p.has_method("play_gather_animation")
 
 
 func _set_depleted(value: bool) -> void:

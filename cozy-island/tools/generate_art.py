@@ -322,22 +322,21 @@ def draw_workshop() -> Image.Image:
     return img
 
 
-def draw_character(frame: int, direction: str, mira=False) -> Image.Image:
+def draw_character(frame: int, direction: str, mira=False, gather=False) -> Image.Image:
     img = new_img(32, 32)
     d = ImageDraw.Draw(img)
     bob = 0 if frame % 2 == 0 else 1
-    # legs
-    leg_off = (-1, 1, -1, 1)[frame]
+    if gather:
+        bob = 2 if frame in (1, 2) else 0
+    leg_off = (-1, 1, -1, 1)[frame % 4]
     pant = P["mira_dress"] if mira else P["pants"]
     fill_rect(d, 12, 22 + bob, 3, 6, pant)
     fill_rect(d, 17, 22 + bob, 3, 6, pant)
     if direction in ("down", "up"):
         fill_rect(d, 12 + leg_off, 22 + bob, 3, 6, pant)
         fill_rect(d, 17 - leg_off, 22 + bob, 3, 6, pant)
-    # body
     shirt = P["mira_dress"] if mira else P["shirt"]
     fill_rect(d, 11, 14 + bob, 10, 10, shirt)
-    # head
     circle(d, 16, 10 + bob, 5, P["skin"])
     hair = P["mira_hair"] if mira else P["hair"]
     if direction != "up":
@@ -347,7 +346,6 @@ def draw_character(frame: int, direction: str, mira=False) -> Image.Image:
             fill_rect(d, 19, 8 + bob, 3, 6, hair)
     else:
         fill_rect(d, 11, 5 + bob, 10, 6, hair)
-    # face
     if direction == "down":
         px(d, 14, 10 + bob, P["outline"])
         px(d, 18, 10 + bob, P["outline"])
@@ -356,7 +354,11 @@ def draw_character(frame: int, direction: str, mira=False) -> Image.Image:
         px(d, 13, 10 + bob, P["outline"])
     elif direction == "right":
         px(d, 18, 10 + bob, P["outline"])
-    # outline feet
+    if gather:
+        arm_y = 16 + bob + (2 if frame >= 1 else 0)
+        fill_rect(d, 8, arm_y, 4, 3, P["skin"])
+        fill_rect(d, 20, arm_y, 4, 3, P["skin"])
+        fill_rect(d, 22, arm_y - 1, 6, 2, P["wood"])
     fill_rect(d, 12, 27 + bob, 3, 2, P["wood_dark"])
     fill_rect(d, 17, 27 + bob, 3, 2, P["wood_dark"])
     return img
@@ -365,12 +367,16 @@ def draw_character(frame: int, direction: str, mira=False) -> Image.Image:
 def make_player_sheet():
     dirs = ["down", "left", "right", "up"]
     frames = 4
-    sheet = Image.new("RGBA", (32 * frames, 32 * len(dirs)), (0, 0, 0, 0))
+    sheet = Image.new("RGBA", (32 * frames, 32 * (len(dirs) + 1)), (0, 0, 0, 0))
     for dy, direction in enumerate(dirs):
         for fx in range(frames):
             frame = draw_character(fx, direction, mira=False)
             sheet.paste(frame, (fx * 32, dy * 32))
             save(frame, OUT / "characters" / "player" / f"{direction}_{fx}.png")
+    for fx in range(frames):
+        g = draw_character(fx, "down", mira=False, gather=True)
+        sheet.paste(g, (fx * 32, 4 * 32))
+        save(g, OUT / "characters" / "player" / f"gather_{fx}.png")
     save(sheet, OUT / "characters" / "player_sheet.png")
 
     mira_sheet = Image.new("RGBA", (32 * frames, 32 * len(dirs)), (0, 0, 0, 0))
@@ -379,8 +385,14 @@ def make_player_sheet():
             frame = draw_character(fx, direction, mira=True)
             mira_sheet.paste(frame, (fx * 32, dy * 32))
     save(mira_sheet, OUT / "characters" / "mira_sheet.png")
-    # idle front for NPC
     save(draw_character(0, "down", mira=True), OUT / "characters" / "mira.png")
+
+    # Soft ground shadow
+    sh = new_img(32, 16)
+    d = ImageDraw.Draw(sh)
+    for r, a in [(10, 60), (8, 90), (5, 120)]:
+        d.ellipse([16 - r, 8 - r // 2, 16 + r, 8 + r // 2], fill=(20, 15, 10, a))
+    save(sh, OUT / "characters" / "shadow.png")
 
 
 def make_props():
@@ -548,13 +560,20 @@ def write_art_bible():
 | accent | #E9A66C | UI borders / fire |
 
 ## Layers
-1. Terrain TileMap (sand/grass/forest/cave/water)
-2. Shore / path accents
-3. Props (trees, rocks, bushes)
-4. Gatherables / buildings / NPCs
-5. Player
-6. VFX (fire particles, water shimmer)
-7. UI CanvasLayer
+1. Atmosphere (WorldEnvironment glow, sparkles, leaf dust)
+2. Terrain TileMap (sand/grass/forest/cave/water)
+3. Shore / path accents
+4. Props (trees, rocks, bushes) + soft shadows
+5. Gatherables / buildings / NPCs
+6. Player (walk + gather sheets)
+7. Campfire PointLight2D + fire particles
+8. Day/night CanvasModulate grades
+9. UI CanvasLayer (textured panels / joystick)
+
+## Animation
+- Player sheet: 128×160 — 4 walk rows × 4 frames + gather row
+- Fire pit sheet: 128×32 — 4 burn frames
+- Water tiles: atlas frames 6–9 cycle every ~220ms
 
 ## Credits
 - Custom tropical sprites generated for Cozy Island
@@ -565,6 +584,40 @@ def write_art_bible():
     print("wrote", path)
 
 
+def make_fx():
+    fx = OUT / "fx"
+    # Soft radial light for PointLight2D
+    light = Image.new("RGBA", (128, 128), (0, 0, 0, 0))
+    ld = ImageDraw.Draw(light)
+    for r in range(60, 0, -1):
+        a = int(255 * ((1 - r / 60) ** 2))
+        ld.ellipse([64 - r, 64 - r, 64 + r, 64 + r], fill=(255, 200, 120, a))
+    save(light, fx / "soft_light.png")
+    spark = new_img(8, 8)
+    sd = ImageDraw.Draw(spark)
+    circle(sd, 4, 4, 3, P["fire_core"])
+    circle(sd, 3, 3, 1, P["white"])
+    save(spark, fx / "spark.png")
+    leaf = new_img(8, 8)
+    ImageDraw.Draw(leaf).ellipse([1, 2, 6, 6], fill=(*P["leaf"], 200))
+    save(leaf, fx / "leaf.png")
+
+    # Animated fire pit frames
+    for i in range(4):
+        f = new_img()
+        fd = ImageDraw.Draw(f)
+        for x in (8, 14, 20):
+            circle(fd, x + 2, 26, 3, P["rock"])
+        h = 6 - (i % 2)
+        fd.polygon([(16, h), (10, 22), (22, 22)], fill=P["fire"])
+        fd.polygon([(16, h + 4), (13, 22), (19, 22)], fill=P["fire_core"])
+        save(f, OUT / "props" / f"fire_pit_{i}.png")
+    sheet = Image.new("RGBA", (128, 32), (0, 0, 0, 0))
+    for i in range(4):
+        sheet.paste(Image.open(OUT / "props" / f"fire_pit_{i}.png"), (i * 32, 0))
+    save(sheet, OUT / "props" / "fire_pit_sheet.png")
+
+
 def main():
     print("Generating Cozy Island art pack...")
     make_tilesheet()
@@ -572,6 +625,7 @@ def main():
     props = make_props()
     make_item_icons(props)
     make_ui()
+    make_fx()
     copy_audio()
     write_art_bible()
     print("Done.")
