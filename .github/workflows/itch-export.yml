@@ -36,7 +36,7 @@ jobs:
       - name: Export HTML5 build
         run: |
           mkdir -p cozy-island/build/web
-          ./Godot_v${GODOT_VERSION}_linux.x86_64 --headless --path cozy-island --export-release "Web" cozy-island/build/web/index.html
+          ./Godot_v${GODOT_VERSION}_linux.x86_64 --headless --path cozy-island --export-release "Web" build/web/index.html
 
       - name: Package zip for itch.io
         run: |
