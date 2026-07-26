@@ -4,6 +4,8 @@ Play in the browser on desktop or phone — no install required.
 
 **Live URL:** https://leathery.itch.io/cozy-island
 
+<!-- publish: verified 2026-07-26 -->
+
 ---
 
 ## One-time setup (Butler + API key)
