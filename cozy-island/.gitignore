@@ -12,6 +12,7 @@ import/
 
 # Build outputs (keep export presets in repo)
 build/
+tools/butler/
 export/
 *.exe
 *.x86_64

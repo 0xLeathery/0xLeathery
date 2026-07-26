@@ -2,81 +2,92 @@
 
 Play in the browser on desktop or phone — no install required.
 
-## Quick upload (manual, ~5 minutes)
-
-### 1. Create the web build (if not already built)
-
-In Godot 4.3:
-
-1. **Editor → Manage Export Templates → Download**
-2. **Project → Export → Web**
-3. Export to `build/web/index.html`
-
-Or from the command line (Linux/macOS):
-
-```bash
-godot --headless --path cozy-island --export-release "Web" cozy-island/build/web/index.html
-```
-
-### 2. Zip the web folder
-
-The zip must contain `index.html` at the **root** (not inside a subfolder).
-
-```bash
-cd cozy-island/build/web
-zip -r ../cozy-island-web.zip .
-```
-
-A pre-built zip path: `cozy-island/build/cozy-island-web.zip` (generate locally; not committed to git due to size).
-
-### 3. Create your itch.io page
-
-1. Go to [itch.io/dashboard](https://itch.io/dashboard) (you’re signed in via GitHub as **0xLeathery**)
-2. **Create new project**
-3. Set the page URL to **`0xleathery/cozy-island`** (itch lowercases usernames)
-4. **Kind of project:** HTML
-5. **Upload** `cozy-island-web.zip`
-6. Check **"This file will be played in the browser"**
-7. Set viewport: **1280 × 720**
-8. Check **"Mobile friendly"**
-9. **Save** → set visibility to **Public** or **Restricted** (link-only) → **Publish**
-
-Your game URL:
-
-**https://0xleathery.itch.io/cozy-island**
-
-> If your itch username differs, check your profile URL at itch.io/profile — use that slug instead.
+**Live URL (after first publish):** https://0xleathery.itch.io/cozy-island
 
 ---
 
-## Upload with Butler (automated)
+## One-time setup (Butler + API key)
 
-[Butler](https://itch.io/docs/butler/) is itch’s CLI uploader.
+### 1. Create an itch.io API key
 
-### One-time setup
+1. Go to [itch.io/user/settings/api-keys](https://itch.io/user/settings/api-keys)
+2. **Generate new API key** → copy it (shown once)
 
-```bash
-# Install butler — see https://itch.io/docs/butler/installing.html
-butler login
-```
+### 2. Add the key to GitHub (for automatic deploys)
 
-### Configure project slug
+1. Open [github.com/0xLeathery/0xLeathery/settings/secrets/actions](https://github.com/0xLeathery/0xLeathery/settings/secrets/actions)
+2. **New repository secret**
+3. Name: `ITCH_API_KEY`
+4. Value: paste your itch API key
 
-Edit `.itch.toml` if your itch username differs:
+After this, every push to **`main`** that changes `cozy-island/` will build and publish automatically.
 
-```toml
-project = "0xleathery/cozy-island"
-```
+### 3. Create the itch.io project page (first time only)
 
-### Build and push
+Before Butler can push, the project must exist on itch:
+
+1. [itch.io/dashboard](https://itch.io/dashboard) → **Create new project**
+2. URL slug: **`cozy-island`**
+3. Kind: **HTML**
+4. Save as draft (Butler will upload the zip on first push)
+
+---
+
+## Publish with Butler
+
+### Option A — GitHub Actions (recommended)
+
+**Automatic:** merge to `main` → workflow builds & pushes via Butler.
+
+**Manual:** [Actions → Export & Publish to itch.io → Run workflow](https://github.com/0xLeathery/0xLeathery/actions/workflows/itch-export.yml)
+
+Uncheck “Push build to itch.io” if you only want the zip artifact.
+
+### Option B — Local script
 
 ```bash
 cd cozy-island
-godot --headless --export-release "Web" build/web/index.html
-cd build/web && zip -r ../cozy-island-web.zip .
-cd ../..
-butler push build/cozy-island-web.zip 0xleathery/cozy-island:web
+
+# Install Butler (once)
+chmod +x scripts/install-butler.sh scripts/publish-itch.sh
+./scripts/install-butler.sh
+export PATH="$PWD/tools/butler:$PATH"
+
+# Authenticate (once) — opens browser or prompts for API key
+butler login
+
+# Build + publish
+./scripts/publish-itch.sh
 ```
+
+Re-publish without rebuilding:
+
+```bash
+./scripts/publish-itch.sh --skip-build
+```
+
+### Option C — Butler CLI directly
+
+```bash
+godot --headless --path cozy-island --export-release "Web" cozy-island/build/web/index.html
+cd cozy-island/build/web && zip -r ../cozy-island-web.zip .
+butler push ../cozy-island-web.zip 0xleathery/cozy-island:web
+butler status 0xleathery/cozy-island:web
+```
+
+---
+
+## itch.io page settings (check after first upload)
+
+On your [project edit page](https://itch.io/game/edit/):
+
+| Setting | Value |
+|---------|-------|
+| Kind | HTML |
+| **This file will be played in the browser** | ✅ |
+| **Mobile friendly** | ✅ |
+| Viewport | 1280 × 720 |
+| Orientation | Landscape |
 
 ---
 
@@ -101,6 +112,12 @@ Virtual joystick (left) and action buttons (right) appear automatically when a t
 
 ## Troubleshooting
 
+### GitHub Action fails: “ITCH_API_KEY secret is not set”
+Add the secret (see setup step 2 above).
+
+### Butler: “Project not found”
+Create the draft project on itch.io first (setup step 3).
+
 ### Game stuck on loading
 - Wait 10–20 seconds on first load (WASM is ~34 MB)
 - Try Chrome or Firefox; Safari on iOS works but can be slower
@@ -117,6 +134,6 @@ Virtual joystick (left) and action buttons (right) appear automatically when a t
 
 ## Notes
 
+- Config: [`/.itch.toml`](../.itch.toml) and [`scripts/publish-itch.sh`](../scripts/publish-itch.sh)
 - itch.io hosts the HTML5 build; no Mac or Xcode needed for players
-- The web build is separate from the iOS native export ([IOS.md](IOS.md))
-- Free itch.io accounts can host HTML games with reasonable bandwidth limits
+- Native iOS build: [IOS.md](IOS.md)

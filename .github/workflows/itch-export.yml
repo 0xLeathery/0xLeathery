@@ -1,11 +1,22 @@
-name: Export Web Build for itch.io
+name: Export & Publish to itch.io
 
 on:
   workflow_dispatch:
+    inputs:
+      publish_to_itch:
+        description: Push build to itch.io with Butler
+        type: boolean
+        default: true
   push:
-    branches: [main, cursor/cozy-island-scaffold-73da]
+    branches: [main]
     paths:
       - 'cozy-island/**'
+      - '.github/workflows/itch-export.yml'
+
+env:
+  ITCH_PROJECT: 0xleathery/cozy-island
+  ITCH_CHANNEL: web
+  GODOT_VERSION: 4.3-stable
 
 jobs:
   export-web:
@@ -13,9 +24,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Download Godot
+      - name: Download Godot and export templates
         run: |
-          GODOT_VERSION=4.3-stable
           curl -sL "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}/Godot_v${GODOT_VERSION}_linux.x86_64.zip" -o godot.zip
           curl -sL "https://github.com/godotengine/godot/releases/download/${GODOT_VERSION}/Godot_v${GODOT_VERSION}_export_templates.tpz" -o templates.tpz
           unzip -q godot.zip
@@ -26,9 +36,9 @@ jobs:
       - name: Export HTML5 build
         run: |
           mkdir -p cozy-island/build/web
-          ./Godot_v4.3-stable_linux.x86_64 --headless --path cozy-island --export-release "Web" cozy-island/build/web/index.html
+          ./Godot_v${GODOT_VERSION}_linux.x86_64 --headless --path cozy-island --export-release "Web" cozy-island/build/web/index.html
 
-      - name: Package zip for itch.io upload
+      - name: Package zip for itch.io
         run: |
           cd cozy-island/build/web
           zip -r ../cozy-island-web.zip .
@@ -39,3 +49,45 @@ jobs:
           name: cozy-island-web-itch
           path: cozy-island/build/cozy-island-web.zip
           retention-days: 30
+
+  publish-itch:
+    needs: export-web
+    runs-on: ubuntu-latest
+    if: >-
+      (github.event_name == 'workflow_dispatch' && github.event.inputs.publish_to_itch) ||
+      (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    steps:
+      - name: Require itch API key
+        env:
+          ITCH_API_KEY: ${{ secrets.ITCH_API_KEY }}
+        run: |
+          if [ -z "$ITCH_API_KEY" ]; then
+            echo "::error::ITCH_API_KEY secret is not set."
+            echo "Create one at https://itch.io/user/settings/api-keys"
+            echo "Then add it at Settings → Secrets → Actions in this repo."
+            exit 1
+          fi
+
+      - name: Download web build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: cozy-island-web-itch
+
+      - name: Install Butler
+        run: |
+          curl -fsSL -o butler.zip "https://broth.itch.zone/butler/linux-amd64/LATEST/archive/default"
+          unzip -q butler.zip
+          chmod +x butler
+          ./butler -V
+
+      - name: Push to itch.io
+        env:
+          BUTLER_API_KEY: ${{ secrets.ITCH_API_KEY }}
+        run: |
+          ./butler push cozy-island-web.zip "${{ env.ITCH_PROJECT }}:${{ env.ITCH_CHANNEL }}"
+          ./butler status "${{ env.ITCH_PROJECT }}:${{ env.ITCH_CHANNEL }}"
+
+      - name: Summary
+        run: |
+          echo "### Published to itch.io" >> "$GITHUB_STEP_SUMMARY"
+          echo "Play at: **https://0xleathery.itch.io/cozy-island**" >> "$GITHUB_STEP_SUMMARY"

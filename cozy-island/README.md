@@ -16,13 +16,13 @@ See **[docs/IOS.md](docs/IOS.md)** for step-by-step iPhone testing with Xcode. T
 
 ### Play in browser (itch.io)
 
-See **[docs/ITCH.md](docs/ITCH.md)** to publish the HTML5 build on [itch.io](https://itch.io) — works on desktop and phone, no install needed.
+See **[docs/ITCH.md](docs/ITCH.md)** — Butler auto-publish to **https://0xleathery.itch.io/cozy-island**
 
-```bash
-godot --headless --path cozy-island --export-release "Web" cozy-island/build/web/index.html
-cd cozy-island/build/web && zip -r ../cozy-island-web.zip .
-# Upload cozy-island-web.zip to itch.io as an HTML game
-```
+1. Add `ITCH_API_KEY` ([itch API keys](https://itch.io/user/settings/api-keys)) to [GitHub Secrets](https://github.com/0xLeathery/0xLeathery/settings/secrets/actions)
+2. Create draft HTML project on itch.io (slug: `cozy-island`)
+3. Push to `main` or run **Actions → Export & Publish to itch.io**
+
+Local publish: `./scripts/install-butler.sh && butler login && ./scripts/publish-itch.sh`
 
 ### Controls (desktop)
 
