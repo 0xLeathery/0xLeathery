@@ -2,7 +2,7 @@
 # https://itch.io/docs/butler/
 
 [itch_config]
-project = "your-username/cozy-island"
+project = "0xleathery/cozy-island"
 
 [uploads]
 # HTML5 build — zip must contain index.html at root

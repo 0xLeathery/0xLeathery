@@ -31,18 +31,21 @@ A pre-built zip path: `cozy-island/build/cozy-island-web.zip` (generate locally;
 
 ### 3. Create your itch.io page
 
-1. Go to [itch.io/dashboard](https://itch.io/dashboard)
+1. Go to [itch.io/dashboard](https://itch.io/dashboard) (you’re signed in via GitHub as **0xLeathery**)
 2. **Create new project**
-3. **Kind of project:** HTML
-4. **Upload** `cozy-island-web.zip`
-5. Check **"This file will be played in the browser"**
-6. Set viewport: **1280 × 720** (or leave default)
-7. Check **"Mobile friendly"** (touch controls are included)
-8. **Save** → **Publish**
+3. Set the page URL to **`0xleathery/cozy-island`** (itch lowercases usernames)
+4. **Kind of project:** HTML
+5. **Upload** `cozy-island-web.zip`
+6. Check **"This file will be played in the browser"**
+7. Set viewport: **1280 × 720**
+8. Check **"Mobile friendly"**
+9. **Save** → set visibility to **Public** or **Restricted** (link-only) → **Publish**
 
-Your game URL will look like:
+Your game URL:
 
-`https://your-username.itch.io/cozy-island`
+**https://0xleathery.itch.io/cozy-island**
+
+> If your itch username differs, check your profile URL at itch.io/profile — use that slug instead.
 
 ---
 
@@ -59,10 +62,10 @@ butler login
 
 ### Configure project slug
 
-Edit `.itch.toml` and set your username:
+Edit `.itch.toml` if your itch username differs:
 
 ```toml
-project = "your-username/cozy-island"
+project = "0xleathery/cozy-island"
 ```
 
 ### Build and push
@@ -72,7 +75,7 @@ cd cozy-island
 godot --headless --export-release "Web" build/web/index.html
 cd build/web && zip -r ../cozy-island-web.zip .
 cd ../..
-butler push build/cozy-island-web.zip your-username/cozy-island:web
+butler push build/cozy-island-web.zip 0xleathery/cozy-island:web
 ```
 
 ---
